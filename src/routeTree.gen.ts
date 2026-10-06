@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MediaRouteImport } from './routes/media'
+import { Route as NewRouteImport } from './routes/new'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as ScriptsRouteImport } from './routes/scripts'
+import { Route as VoiceoversRouteImport } from './routes/voiceovers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MediaRoute = MediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewRoute = NewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScriptsRoute = ScriptsRouteImport.update({
+  id: '/scripts',
+  path: '/scripts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VoiceoversRoute = VoiceoversRouteImport.update({
+  id: '/voiceovers',
+  path: '/voiceovers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/media': typeof MediaRoute
+  '/new': typeof NewRoute
+  '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
+  '/scripts': typeof ScriptsRoute
+  '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/media': typeof MediaRoute
+  '/new': typeof NewRoute
+  '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
+  '/scripts': typeof ScriptsRoute
+  '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/media': typeof MediaRoute
+  '/new': typeof NewRoute
+  '/projects': typeof ProjectsRoute
+  '/research': typeof ResearchRoute
+  '/scripts': typeof ScriptsRoute
+  '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/media'
+    | '/new'
+    | '/projects'
+    | '/research'
+    | '/scripts'
+    | '/voiceovers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/media'
+    | '/new'
+    | '/projects'
+    | '/research'
+    | '/scripts'
+    | '/voiceovers'
+  id:
+    | '__root__'
+    | '/'
+    | '/media'
+    | '/new'
+    | '/projects'
+    | '/research'
+    | '/scripts'
+    | '/voiceovers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MediaRoute: typeof MediaRoute
+  NewRoute: typeof NewRoute
+  ProjectsRoute: typeof ProjectsRoute
+  ResearchRoute: typeof ResearchRoute
+  ScriptsRoute: typeof ScriptsRoute
+  VoiceoversRoute: typeof VoiceoversRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/media': {
+      id: '/media'
+      path: '/media'
+      fullPath: '/media'
+      preLoaderRoute: typeof MediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new': {
+      id: '/new'
+      path: '/new'
+      fullPath: '/new'
+      preLoaderRoute: typeof NewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scripts': {
+      id: '/scripts'
+      path: '/scripts'
+      fullPath: '/scripts'
+      preLoaderRoute: typeof ScriptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voiceovers': {
+      id: '/voiceovers'
+      path: '/voiceovers'
+      fullPath: '/voiceovers'
+      preLoaderRoute: typeof VoiceoversRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MediaRoute: MediaRoute,
+  NewRoute: NewRoute,
+  ProjectsRoute: ProjectsRoute,
+  ResearchRoute: ResearchRoute,
+  ScriptsRoute: ScriptsRoute,
+  VoiceoversRoute: VoiceoversRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
