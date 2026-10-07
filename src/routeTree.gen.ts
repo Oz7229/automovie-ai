@@ -10,16 +10,32 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentsRouteImport } from './routes/agents'
+import { Route as EditorRouteImport } from './routes/editor'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as NewRouteImport } from './routes/new'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ScriptsRouteImport } from './routes/scripts'
+import { Route as SeoRouteImport } from './routes/seo'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as TemplatesRouteImport } from './routes/templates'
+import { Route as ThumbnailsRouteImport } from './routes/thumbnails'
 import { Route as VoiceoversRouteImport } from './routes/voiceovers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorRoute = EditorRouteImport.update({
+  id: '/editor',
+  path: '/editor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MediaRoute = MediaRouteImport.update({
@@ -47,6 +63,26 @@ const ScriptsRoute = ScriptsRouteImport.update({
   path: '/scripts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SeoRoute = SeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThumbnailsRoute = ThumbnailsRouteImport.update({
+  id: '/thumbnails',
+  path: '/thumbnails',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VoiceoversRoute = VoiceoversRouteImport.update({
   id: '/voiceovers',
   path: '/voiceovers',
@@ -55,69 +91,111 @@ const VoiceoversRoute = VoiceoversRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/editor': typeof EditorRoute
   '/media': typeof MediaRoute
   '/new': typeof NewRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
   '/scripts': typeof ScriptsRoute
+  '/seo': typeof SeoRoute
+  '/settings': typeof SettingsRoute
+  '/templates': typeof TemplatesRoute
+  '/thumbnails': typeof ThumbnailsRoute
   '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/editor': typeof EditorRoute
   '/media': typeof MediaRoute
   '/new': typeof NewRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
   '/scripts': typeof ScriptsRoute
+  '/seo': typeof SeoRoute
+  '/settings': typeof SettingsRoute
+  '/templates': typeof TemplatesRoute
+  '/thumbnails': typeof ThumbnailsRoute
   '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRoute
+  '/editor': typeof EditorRoute
   '/media': typeof MediaRoute
   '/new': typeof NewRoute
   '/projects': typeof ProjectsRoute
   '/research': typeof ResearchRoute
   '/scripts': typeof ScriptsRoute
+  '/seo': typeof SeoRoute
+  '/settings': typeof SettingsRoute
+  '/templates': typeof TemplatesRoute
+  '/thumbnails': typeof ThumbnailsRoute
   '/voiceovers': typeof VoiceoversRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agents'
+    | '/editor'
     | '/media'
     | '/new'
     | '/projects'
     | '/research'
     | '/scripts'
+    | '/seo'
+    | '/settings'
+    | '/templates'
+    | '/thumbnails'
     | '/voiceovers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agents'
+    | '/editor'
     | '/media'
     | '/new'
     | '/projects'
     | '/research'
     | '/scripts'
+    | '/seo'
+    | '/settings'
+    | '/templates'
+    | '/thumbnails'
     | '/voiceovers'
   id:
     | '__root__'
     | '/'
+    | '/agents'
+    | '/editor'
     | '/media'
     | '/new'
     | '/projects'
     | '/research'
     | '/scripts'
+    | '/seo'
+    | '/settings'
+    | '/templates'
+    | '/thumbnails'
     | '/voiceovers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsRoute: typeof AgentsRoute
+  EditorRoute: typeof EditorRoute
   MediaRoute: typeof MediaRoute
   NewRoute: typeof NewRoute
   ProjectsRoute: typeof ProjectsRoute
   ResearchRoute: typeof ResearchRoute
   ScriptsRoute: typeof ScriptsRoute
+  SeoRoute: typeof SeoRoute
+  SettingsRoute: typeof SettingsRoute
+  TemplatesRoute: typeof TemplatesRoute
+  ThumbnailsRoute: typeof ThumbnailsRoute
   VoiceoversRoute: typeof VoiceoversRoute
 }
 
@@ -128,6 +206,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editor': {
+      id: '/editor'
+      path: '/editor'
+      fullPath: '/editor'
+      preLoaderRoute: typeof EditorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/media': {
@@ -165,6 +257,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScriptsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/seo': {
+      id: '/seo'
+      path: '/seo'
+      fullPath: '/seo'
+      preLoaderRoute: typeof SeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/templates': {
+      id: '/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof TemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thumbnails': {
+      id: '/thumbnails'
+      path: '/thumbnails'
+      fullPath: '/thumbnails'
+      preLoaderRoute: typeof ThumbnailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/voiceovers': {
       id: '/voiceovers'
       path: '/voiceovers'
@@ -177,11 +297,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsRoute: AgentsRoute,
+  EditorRoute: EditorRoute,
   MediaRoute: MediaRoute,
   NewRoute: NewRoute,
   ProjectsRoute: ProjectsRoute,
   ResearchRoute: ResearchRoute,
   ScriptsRoute: ScriptsRoute,
+  SeoRoute: SeoRoute,
+  SettingsRoute: SettingsRoute,
+  TemplatesRoute: TemplatesRoute,
+  ThumbnailsRoute: ThumbnailsRoute,
   VoiceoversRoute: VoiceoversRoute,
 }
 export const routeTree = rootRouteImport
