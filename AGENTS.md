@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- External AI/media services go behind capability interfaces in src/lib/providers.ts — keeps providers swappable.
+- Sample data in src/lib/sample-data.ts mirrors the planned project→scene→track→clip schema so it can be replaced by real data.
