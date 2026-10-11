@@ -30,11 +30,11 @@ function Editor() {
   const [playing, setPlaying] = useState(false);
   const [exporting, setExporting] = useState<number | null>(null);
   const sel = clips.find((c) => c.id === selId);
-  const scene = scenes.find((s) => playhead >= s.start && playhead < s.start + s.duration) ?? scenes[0];
+  const scene = scenes.find((s) => playhead >= s.start && playhead < s.start + s.duration) ?? scenes[0]!;
 
   const commit = (next: Clip[]) => { setHistory([...history, clips]); setFuture([]); setClips(next); };
-  const undo = () => { if (!history.length) return; setFuture([clips, ...future]); setClips(history[history.length - 1]); setHistory(history.slice(0, -1)); };
-  const redo = () => { if (!future.length) return; setHistory([...history, clips]); setClips(future[0]); setFuture(future.slice(1)); };
+  const undo = () => { if (!history.length) return; setFuture([clips, ...future]); setClips(history[history.length - 1]!); setHistory(history.slice(0, -1)); };
+  const redo = () => { if (!future.length) return; setHistory([...history, clips]); setClips(future[0]!); setFuture(future.slice(1)); };
   const split = () => {
     if (!sel || playhead <= sel.start || playhead >= sel.start + sel.duration) return;
     const a = { ...sel, duration: playhead - sel.start };
