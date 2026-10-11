@@ -51,7 +51,7 @@ function Dashboard() {
             <div key={s} className="rounded-lg border border-border bg-surface p-3">
               <p className="font-mono text-[10px] text-muted-foreground">0{i + 1}</p>
               <p className="text-sm font-semibold">{s}</p>
-              <Badge tone={stageTone[active.stages[i]]} className="mt-2">{active.stages[i]}</Badge>
+              <Badge tone={stageTone[active.stages[i]!]} className="mt-2">{active.stages[i]}</Badge>
             </div>
           ))}
         </div>
