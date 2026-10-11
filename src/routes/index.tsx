@@ -25,7 +25,7 @@ export const stageTone: Record<StageStatus, "default" | "info" | "success" | "wa
 };
 
 function Dashboard() {
-  const active = projects[0];
+  const active = projects[0]!;
   return (
     <div className="space-y-8">
       <div className="panel relative overflow-hidden bg-hero p-6 md:p-8">

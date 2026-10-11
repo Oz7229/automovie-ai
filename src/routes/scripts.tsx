@@ -16,8 +16,8 @@ const actions = ["Rewrite", "Shorten", "Expand", "Improve Hook", "More Conversat
 function Scripts() {
   const [list, setList] = useState(initial);
   const [sel, setSel] = useState(0);
-  const s = list[sel];
-  const update = (k: keyof typeof s, v: string) => setList(list.map((x, i) => (i === sel ? { ...x, [k]: v } : x)));
+  const s = list[sel]!;
+  const update = (k: keyof typeof initial[number], v: string) => setList(list.map((x, i) => (i === sel ? { ...x, [k]: v } : x)));
 
   return (
     <div>
