@@ -7,7 +7,19 @@ export const Route = createFileRoute("/templates")({
   component: Templates,
 });
 
-const list = ["Educational", "Documentary", "Top 10", "Listicle", "Explainer", "Storytelling", "News", "Commentary", "Tutorial", "Product Review", "Case Study"];
+const list = [
+  "Educational",
+  "Documentary",
+  "Top 10",
+  "Listicle",
+  "Explainer",
+  "Storytelling",
+  "News",
+  "Commentary",
+  "Tutorial",
+  "Product Review",
+  "Case Study",
+];
 
 function Templates() {
   return (
@@ -16,8 +28,16 @@ function Templates() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
         {list.map((t, i) => (
           <Link key={t} to="/new" className="panel overflow-hidden transition hover:shadow-glow">
-            <div className="aspect-video" style={{ background: `linear-gradient(135deg, oklch(0.45 0.1 ${i * 33}), oklch(0.2 0.03 ${i * 33 + 60}))` }} />
-            <div className="p-3"><p className="font-semibold">{t}</p><p className="text-xs text-muted-foreground">Hook · Sections · CTA</p></div>
+            <div
+              className="aspect-video"
+              style={{
+                background: `linear-gradient(135deg, oklch(0.45 0.1 ${i * 33}), oklch(0.2 0.03 ${i * 33 + 60}))`,
+              }}
+            />
+            <div className="p-3">
+              <p className="font-semibold">{t}</p>
+              <p className="text-xs text-muted-foreground">Hook · Sections · CTA</p>
+            </div>
           </Link>
         ))}
       </div>

@@ -27,25 +27,40 @@ export function Button({
   return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />;
 }
 
-const badgeVariants = cva("inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide", {
-  variants: {
-    tone: {
-      default: "bg-muted text-muted-foreground",
-      primary: "bg-primary/15 text-primary",
-      success: "bg-success/15 text-success",
-      warning: "bg-warning/15 text-warning",
-      info: "bg-info/15 text-info",
-      danger: "bg-destructive/15 text-destructive",
+const badgeVariants = cva(
+  "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+  {
+    variants: {
+      tone: {
+        default: "bg-muted text-muted-foreground",
+        primary: "bg-primary/15 text-primary",
+        success: "bg-success/15 text-success",
+        warning: "bg-warning/15 text-warning",
+        info: "bg-info/15 text-info",
+        danger: "bg-destructive/15 text-destructive",
+      },
     },
+    defaultVariants: { tone: "default" },
   },
-  defaultVariants: { tone: "default" },
-});
+);
 
-export function Badge({ tone, children, className }: VariantProps<typeof badgeVariants> & { children: ReactNode; className?: string }) {
+export function Badge({
+  tone,
+  children,
+  className,
+}: VariantProps<typeof badgeVariants> & { children: ReactNode; className?: string }) {
   return <span className={cn(badgeVariants({ tone }), className)}>{children}</span>;
 }
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
+export function PageHeader({
+  title,
+  subtitle,
+  actions,
+}: {
+  title: string;
+  subtitle?: string;
+  actions?: ReactNode;
+}) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -77,7 +92,17 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 export const inputCls =
   "w-full rounded-lg border border-input bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
 
-export function Section({ title, action, children, className }: { title: string; action?: ReactNode; children: ReactNode; className?: string }) {
+export function Section({
+  title,
+  action,
+  children,
+  className,
+}: {
+  title: string;
+  action?: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <section className={cn("panel p-5", className)}>
       <div className="mb-4 flex items-center justify-between gap-2">

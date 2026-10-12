@@ -2,23 +2,15 @@
 
 Build a production-ready AI-powered faceless YouTube content creation and video editing platform.
 
-
-
 PROJECT NAME:
 
 CreateFlow AI
-
-
 
 CORE PURPOSE:
 
 CreateFlow AI is an AI video production studio designed primarily for creators who make faceless YouTube videos.
 
-
-
 The platform should take a creator from:
-
-
 
 IDEA/TOPIC
 
@@ -44,17 +36,11 @@ IDEA/TOPIC
 
 → FINAL EXPORT
 
-
-
 The goal is to automate as much of the faceless YouTube production process as possible while still allowing the creator to control and edit everything.
-
-
 
 IMPORTANT:
 
 This must NOT be designed as a simple chatbot.
-
-
 
 It should feel like a professional AI production application similar to a combination of:
 
@@ -70,11 +56,7 @@ It should feel like a professional AI production application similar to a combin
 
 - YouTube content planner
 
-
-
 The interface should be clean, modern, premium, fast, and professional.
-
-
 
 ==================================================
 
@@ -82,11 +64,7 @@ The interface should be clean, modern, premium, fast, and professional.
 
 ==================================================
 
-
-
 Create the following main navigation:
-
-
 
 Dashboard
 
@@ -114,11 +92,7 @@ Templates
 
 Settings
 
-
-
 The application should have a persistent left sidebar on desktop.
-
-
 
 Top navigation should include:
 
@@ -132,15 +106,9 @@ Top navigation should include:
 
 - User profile
 
-
-
 The application must be fully responsive.
 
-
-
 Desktop should be the primary experience because video editing is the main use case.
-
-
 
 ==================================================
 
@@ -148,33 +116,19 @@ Desktop should be the primary experience because video editing is the main use c
 
 ==================================================
 
-
-
 Create a professional creator dashboard.
-
-
 
 Display:
 
-
-
 Welcome message.
 
-
-
 "Create your next video"
-
-
 
 Primary button:
 
 "+ New Video"
 
-
-
 Dashboard cards:
-
-
 
 Projects
 
@@ -188,11 +142,7 @@ Voiceover minutes
 
 Storage used
 
-
-
 Recent Projects section.
-
-
 
 Each project should show:
 
@@ -210,11 +160,7 @@ Each project should show:
 
 - Continue Editing button
 
-
-
 Create a "Production Pipeline" section showing:
-
-
 
 Research
 
@@ -232,8 +178,6 @@ SEO
 
 Export
 
-
-
 Each stage should have a status:
 
 Not Started
@@ -244,29 +188,19 @@ Completed
 
 Needs Review
 
-
-
 ==================================================
 
 3. CREATE NEW VIDEO
 
 ==================================================
 
-
-
 When the user clicks "+ New Video", open a project creation wizard.
-
-
 
 Step 1:
 
 Choose creation method.
 
-
-
 Options:
-
-
 
 A. Start from a Topic
 
@@ -278,11 +212,7 @@ D. Create from YouTube URL
 
 E. Start from Template
 
-
-
 For "Start from a Topic", ask:
-
-
 
 Video Topic
 
@@ -306,35 +236,23 @@ Optional competitor videos
 
 Optional instructions
 
-
-
 Example:
-
-
 
 Topic:
 
 "20 Indoor Plants That Thrive in Water"
 
-
-
 Length:
 
 20 minutes
-
-
 
 Tone:
 
 Educational + conversational
 
-
-
 Style:
 
 Faceless documentary / YouTube educational
-
-
 
 ==================================================
 
@@ -342,25 +260,15 @@ Faceless documentary / YouTube educational
 
 ==================================================
 
-
-
 Create a dedicated Research Agent.
 
-
-
 The Research Agent should be able to research topics using connected web search tools/APIs/MCPs.
-
-
 
 IMPORTANT:
 
 The architecture must allow external research providers to be connected later.
 
-
-
 Possible integrations:
-
-
 
 Google Search
 
@@ -376,27 +284,15 @@ Browser/search MCP
 
 Other web research MCPs
 
-
-
 Do not hardcode one provider.
-
-
 
 Create an abstraction layer called:
 
-
-
 Research Provider
-
-
 
 The user should eventually be able to select which research provider to use.
 
-
-
 Research Agent responsibilities:
-
-
 
 1. Understand the topic.
 
@@ -428,15 +324,9 @@ Research Agent responsibilities:
 
 15. Produce a research report.
 
-
-
 Research interface should display:
 
-
-
 Research Progress
-
-
 
 Searching...
 
@@ -448,11 +338,7 @@ Extracting useful facts...
 
 Building research report...
 
-
-
 Then show:
-
-
 
 Research Summary
 
@@ -474,15 +360,9 @@ Things To Avoid
 
 Content Opportunities
 
-
-
 Every research claim should ideally be associated with its source.
 
-
-
 Allow the creator to manually add research instructions.
-
-
 
 ==================================================
 
@@ -490,15 +370,9 @@ Allow the creator to manually add research instructions.
 
 ==================================================
 
-
-
 Create a Script Agent.
 
-
-
 The Script Agent should use:
-
-
 
 - User topic
 
@@ -514,15 +388,9 @@ The Script Agent should use:
 
 - Desired tone
 
-
-
 to generate the script.
 
-
-
 The script generator should support:
-
-
 
 Hook
 
@@ -546,11 +414,7 @@ Conclusion
 
 Call to action
 
-
-
 Create script templates such as:
-
-
 
 Educational
 
@@ -574,23 +438,13 @@ Product Review
 
 Case Study
 
-
-
 The user should be able to create a custom writing style.
-
-
 
 Create:
 
-
-
 "Channel Writing Style"
 
-
-
 where the creator can define:
-
-
 
 Sentence length
 
@@ -614,11 +468,7 @@ Intro style
 
 Outro style
 
-
-
 Allow the creator to save this as a reusable "Writing Skill".
-
-
 
 ==================================================
 
@@ -626,37 +476,23 @@ Allow the creator to save this as a reusable "Writing Skill".
 
 ==================================================
 
-
-
 Create a professional script editor.
 
-
-
 Layout:
-
-
 
 LEFT:
 
 Scene/section list.
 
-
-
 CENTER:
 
 Script editor.
-
-
 
 RIGHT:
 
 AI assistant.
 
-
-
 Each script section should support:
-
-
 
 Scene number
 
@@ -674,53 +510,33 @@ Sound effects
 
 Duration
 
-
-
 Example:
 
-
-
 SCENE 01
-
-
 
 Narration:
 
 "Imagine waking up one morning..."
 
-
-
 Visual:
 
 "Slow cinematic shot of a modern apartment..."
-
-
 
 On-screen text:
 
 "THIS IS WHERE IT STARTS"
 
-
-
 B-roll:
 
 "Person opening curtains"
-
-
 
 Music:
 
 "Low cinematic ambient"
 
-
-
 The user must be able to edit the script manually.
 
-
-
 Add AI actions:
-
-
 
 Rewrite
 
@@ -746,27 +562,17 @@ Generate Visuals
 
 Generate Scene
 
-
-
 ==================================================
 
 7. SCRIPT TO SCENE CONVERTER
 
 ==================================================
 
-
-
 This is extremely important.
-
-
 
 After the script is approved, the system should automatically convert the script into a structured video timeline.
 
-
-
 Example:
-
-
 
 SCENE 1
 
@@ -784,23 +590,15 @@ Music: ...
 
 SFX: ...
 
-
-
 SCENE 2
 
 Duration: 0:18-0:42
 
 ...
 
-
-
 The AI should determine approximate scene durations based on narration length.
 
-
-
 Allow the user to regenerate individual scenes without regenerating the entire project.
-
-
 
 ==================================================
 
@@ -808,31 +606,17 @@ Allow the user to regenerate individual scenes without regenerating the entire p
 
 ==================================================
 
-
-
 Create a Voiceover Agent.
-
-
 
 The application architecture must support external voice providers.
 
-
-
 Primary possible integration:
-
-
 
 ElevenLabs
 
-
-
 But create the architecture so other providers can be added.
 
-
-
 Voice settings:
-
-
 
 Voice
 
@@ -850,15 +634,9 @@ Style
 
 Speed
 
-
-
 Allow voice preview.
 
-
-
 Allow the user to generate:
-
-
 
 Entire script
 
@@ -866,15 +644,9 @@ Individual scenes
 
 Selected paragraphs
 
-
-
 The generated audio should automatically be attached to the corresponding scenes.
 
-
-
 Display:
-
-
 
 Generating voiceover...
 
@@ -882,15 +654,9 @@ Processing...
 
 Completed
 
-
-
 Show waveform/audio player.
 
-
-
 Allow:
-
-
 
 Play
 
@@ -904,11 +670,7 @@ Replace
 
 Trim
 
-
-
 Store generated audio in the project's media library.
-
-
 
 ==================================================
 
@@ -916,19 +678,11 @@ Store generated audio in the project's media library.
 
 ==================================================
 
-
-
 Create a Visual Director Agent.
-
-
 
 This agent analyzes each scene and determines what visual assets are required.
 
-
-
 For every scene generate:
-
-
 
 Visual type:
 
@@ -954,31 +708,19 @@ Visual type:
 
 - Diagram
 
-
-
 Create a visual prompt automatically.
 
-
-
 Example:
-
-
 
 Scene:
 
 "Plants growing in water"
 
-
-
 Visual prompt:
 
 "Close-up cinematic shot of healthy pothos roots growing inside a clear glass jar..."
 
-
-
 The user should be able to edit the visual prompt.
-
-
 
 ==================================================
 
@@ -986,15 +728,9 @@ The user should be able to edit the visual prompt.
 
 ==================================================
 
-
-
 Design an integration layer for image generation.
 
-
-
 Possible providers:
-
-
 
 Google Gemini / Nano Banana
 
@@ -1006,27 +742,15 @@ Ideogram
 
 Other compatible providers
 
-
-
 Do NOT tightly couple the application to one provider.
-
-
 
 Create:
 
-
-
 Image Provider Interface
-
-
 
 The user should eventually be able to choose the provider.
 
-
-
 Generated images should automatically appear in the Media Library.
-
-
 
 ==================================================
 
@@ -1034,15 +758,9 @@ Generated images should automatically appear in the Media Library.
 
 ==================================================
 
-
-
 Create support for AI video generation providers.
 
-
-
 Possible integrations:
-
-
 
 Google Veo
 
@@ -1056,27 +774,15 @@ Pika
 
 Other video generation APIs
 
-
-
 Create a Video Generation Provider abstraction.
-
-
 
 Each scene can request:
 
-
-
 Generate AI Video
-
-
 
 The system should send the scene's visual prompt to the selected provider.
 
-
-
 Generated clips should automatically attach to the correct scene.
-
-
 
 ==================================================
 
@@ -1084,15 +790,9 @@ Generated clips should automatically attach to the correct scene.
 
 ==================================================
 
-
-
 Create a Stock Media Agent.
 
-
-
 Possible providers:
-
-
 
 Pexels
 
@@ -1102,29 +802,17 @@ Unsplash
 
 Other stock media APIs
 
-
-
 The agent should search for relevant:
-
-
 
 Videos
 
 Images
 
-
-
 based on the scene description.
-
-
 
 Show results inside the editor.
 
-
-
 Allow:
-
-
 
 Use
 
@@ -1134,23 +822,15 @@ Download
 
 Add to scene
 
-
-
 ==================================================
 
 13. VIDEO EDITOR
 
 ==================================================
 
-
-
 Create a professional browser-based video editor.
 
-
-
 The editor should have:
-
-
 
 TOP:
 
@@ -1163,8 +843,6 @@ Redo
 Preview
 
 Export
-
-
 
 LEFT:
 
@@ -1182,29 +860,19 @@ Effects
 
 Elements
 
-
-
 CENTER:
 
 Video preview/canvas
-
-
 
 BOTTOM:
 
 Timeline
 
-
-
 RIGHT:
 
 Inspector / Properties
 
-
-
 Timeline should contain tracks:
-
-
 
 Video
 
@@ -1220,11 +888,7 @@ Text
 
 Captions
 
-
-
 Users should be able to:
-
-
 
 Drag clips
 
@@ -1256,23 +920,15 @@ Add music
 
 Add sound effects
 
-
-
 ==================================================
 
 14. TIMELINE ENGINE
 
 ==================================================
 
-
-
 Design the backend data structure around a timeline.
 
-
-
 Each project should have:
-
-
 
 Project
 
@@ -1292,11 +948,7 @@ Effects
 
 Transitions
 
-
-
 Each clip should contain:
-
-
 
 id
 
@@ -1326,11 +978,7 @@ transitionIn
 
 transitionOut
 
-
-
 The timeline must be deterministic and editable.
-
-
 
 ==================================================
 
@@ -1338,19 +986,11 @@ The timeline must be deterministic and editable.
 
 ==================================================
 
-
-
 The application should be designed to eventually render a final MP4.
-
-
 
 Use a proper rendering architecture.
 
-
-
 Possible rendering technologies:
-
-
 
 FFmpeg
 
@@ -1360,27 +1000,15 @@ Cloud rendering service
 
 Server-side rendering workers
 
-
-
 Do not attempt to perform heavy video rendering directly inside the browser.
-
-
 
 Create a rendering job system.
 
-
-
 When user clicks:
-
-
 
 "Export Video"
 
-
-
 show:
-
-
 
 Preparing project
 
@@ -1396,21 +1024,13 @@ Rendering final video
 
 Finalizing
 
-
-
 Then provide:
-
-
 
 1080p
 
 4K
 
-
-
 where supported.
-
-
 
 ==================================================
 
@@ -1418,19 +1038,11 @@ where supported.
 
 ==================================================
 
-
-
 Create a Caption Agent.
-
-
 
 It should automatically generate captions from the voiceover.
 
-
-
 Support:
-
-
 
 Word-by-word captions
 
@@ -1440,11 +1052,7 @@ Highlighted keywords
 
 Animated captions
 
-
-
 Caption styles:
-
-
 
 Minimal
 
@@ -1460,11 +1068,7 @@ Podcast
 
 Kinetic
 
-
-
 Allow users to customize:
-
-
 
 Font
 
@@ -1480,27 +1084,17 @@ Background
 
 Stroke
 
-
-
 ==================================================
 
 17. MUSIC AGENT
 
 ==================================================
 
-
-
 Create a Music Agent.
-
-
 
 The agent should analyze the script and suggest background music.
 
-
-
 It should understand:
-
-
 
 Mood
 
@@ -1510,15 +1104,9 @@ Scene type
 
 Emotional intensity
 
-
-
 Support external music providers later.
 
-
-
 Music controls:
-
-
 
 Volume
 
@@ -1530,11 +1118,7 @@ Start point
 
 End point
 
-
-
 Automatically duck background music when narration is playing.
-
-
 
 ==================================================
 
@@ -1542,19 +1126,11 @@ Automatically duck background music when narration is playing.
 
 ==================================================
 
-
-
 Create an SFX Agent.
-
-
 
 The agent should identify where sound effects would improve the video.
 
-
-
 Examples:
-
-
 
 Whoosh
 
@@ -1576,11 +1152,7 @@ Nature
 
 Crowd
 
-
-
 Allow users to approve or reject suggested SFX.
-
-
 
 ==================================================
 
@@ -1588,15 +1160,9 @@ Allow users to approve or reject suggested SFX.
 
 ==================================================
 
-
-
 Create a Thumbnail Agent.
 
-
-
 It should analyze:
-
-
 
 Topic
 
@@ -1606,15 +1172,9 @@ Script
 
 Target audience
 
-
-
 and generate several thumbnail concepts.
 
-
-
 Provide:
-
-
 
 Concept 1
 
@@ -1624,11 +1184,7 @@ Concept 3
 
 Concept 4
 
-
-
 Each concept should include:
-
-
 
 Image prompt
 
@@ -1642,15 +1198,9 @@ Color direction
 
 Visual hierarchy
 
-
-
 Integrate with image generation providers.
 
-
-
 Allow:
-
-
 
 Generate
 
@@ -1660,23 +1210,15 @@ Edit
 
 Download
 
-
-
 ==================================================
 
 20. YOUTUBE SEO AGENT
 
 ==================================================
 
-
-
 Create a YouTube SEO Agent.
 
-
-
 Generate:
-
-
 
 YouTube title options
 
@@ -1696,11 +1238,7 @@ Community post
 
 Shorts ideas
 
-
-
 Title generator should prioritize:
-
-
 
 Curiosity
 
@@ -1710,15 +1248,9 @@ CTR
 
 Search intent
 
-
-
 Provide multiple title variations.
 
-
-
 Example:
-
-
 
 High CTR
 
@@ -1728,19 +1260,13 @@ Curiosity
 
 Balanced
 
-
-
 ==================================================
 
 21. CONTENT REPURPOSING AGENT
 
 ==================================================
 
-
-
 After creating a long-form video, automatically generate:
-
-
 
 YouTube Shorts
 
@@ -1754,19 +1280,11 @@ Facebook posts
 
 X posts
 
-
-
 The user should be able to select:
-
-
 
 "Repurpose Video"
 
-
-
 The AI should analyze the finished script and identify the best short-form clips.
-
-
 
 ==================================================
 
@@ -1774,15 +1292,9 @@ The AI should analyze the finished script and identify the best short-form clips
 
 ==================================================
 
-
-
 Create an AI Agent Manager.
 
-
-
 Agents:
-
-
 
 Research Agent
 
@@ -1812,11 +1324,7 @@ Repurposing Agent
 
 Quality Control Agent
 
-
-
 Each agent should have:
-
-
 
 Name
 
@@ -1836,39 +1344,23 @@ Output format
 
 Enabled/disabled
 
-
-
 ==================================================
 
 23. SKILLS SYSTEM
 
 ==================================================
 
-
-
 This is extremely important.
-
-
 
 Create a reusable Skills system.
 
-
-
 A Skill is a set of instructions that teaches the AI how the creator wants work performed.
-
-
 
 Example:
 
-
-
 "Garden YouTube Skill"
 
-
-
 Instructions could include:
-
-
 
 Use conversational language.
 
@@ -1892,11 +1384,7 @@ Use American English.
 
 Write for a general audience.
 
-
-
 The user should be able to:
-
-
 
 Create Skill
 
@@ -1908,11 +1396,7 @@ Delete Skill
 
 Assign Skill to Agent
 
-
-
 Skills can be assigned to:
-
-
 
 Research Agent
 
@@ -1924,23 +1408,15 @@ SEO Agent
 
 etc.
 
-
-
 ==================================================
 
 24. CHANNEL PROFILES
 
 ==================================================
 
-
-
 Allow users to create multiple YouTube channel profiles.
 
-
-
 Each channel should have:
-
-
 
 Channel name
 
@@ -1968,15 +1444,9 @@ CTA
 
 Preferred video length
 
-
-
 When creating a video, the user chooses a channel profile.
 
-
-
 The AI automatically applies the channel's settings.
-
-
 
 ==================================================
 
@@ -1984,15 +1454,9 @@ The AI automatically applies the channel's settings.
 
 ==================================================
 
-
-
 Create a final Quality Control Agent.
 
-
-
 Before export, analyze:
-
-
 
 Script quality
 
@@ -2022,19 +1486,11 @@ CTA
 
 YouTube SEO
 
-
-
 Generate a:
-
-
 
 Video Quality Score
 
-
-
 Example:
-
-
 
 Hook: 92/100
 
@@ -2048,11 +1504,7 @@ Retention Potential: 90/100
 
 SEO: 84/100
 
-
-
 Then provide recommendations.
-
-
 
 ==================================================
 
@@ -2060,95 +1512,49 @@ Then provide recommendations.
 
 ==================================================
 
-
-
 The primary workflow should be:
-
-
 
 1. User enters topic.
 
-
-
 2. Research Agent researches topic.
-
-
 
 3. AI creates research report.
 
-
-
 4. User approves research.
-
-
 
 5. Script Agent generates script.
 
-
-
 6. User edits/approves script.
-
-
 
 7. Script is converted into scenes.
 
-
-
 8. Voice Agent generates narration.
-
-
 
 9. Visual Director analyzes scenes.
 
-
-
 10. User chooses automatic visual generation or manual control.
-
-
 
 11. Image/Video/Stock agents generate or find assets.
 
-
-
 12. Caption Agent generates captions.
-
-
 
 13. Music Agent recommends music.
 
-
-
 14. SFX Agent adds sound effects.
-
-
 
 15. System builds timeline.
 
-
-
 16. User enters Video Editor.
-
-
 
 17. User manually edits anything needed.
 
-
-
 18. Quality Control Agent reviews video.
-
-
 
 19. Thumbnail Agent generates thumbnails.
 
-
-
 20. SEO Agent generates metadata.
 
-
-
 21. User exports final video.
-
-
 
 ==================================================
 
@@ -2156,11 +1562,7 @@ The primary workflow should be:
 
 ==================================================
 
-
-
 Use project statuses:
-
-
 
 IDEA
 
@@ -2186,11 +1588,7 @@ EXPORTING
 
 COMPLETED
 
-
-
 Display the current status clearly.
-
-
 
 ==================================================
 
@@ -2198,15 +1596,9 @@ Display the current status clearly.
 
 ==================================================
 
-
-
 Use Supabase for authentication, database, storage, and backend data.
 
-
-
 Create database tables for:
-
-
 
 users
 
@@ -2264,27 +1656,15 @@ templates
 
 exports
 
-
-
 Use proper relationships.
-
-
 
 Every project belongs to a user.
 
-
-
 Every project can belong to a channel.
-
-
 
 Every scene belongs to a project.
 
-
-
 Every asset belongs to a project or user's media library.
-
-
 
 ==================================================
 
@@ -2292,25 +1672,15 @@ Every asset belongs to a project or user's media library.
 
 ==================================================
 
-
-
 Use Supabase Auth.
 
-
-
 Support:
-
-
 
 Email/password
 
 Google login
 
-
-
 Create:
-
-
 
 Login
 
@@ -2322,35 +1692,21 @@ Reset password
 
 Account settings
 
-
-
 ==================================================
 
 30. API / MCP INTEGRATION ARCHITECTURE
 
 ==================================================
 
-
-
 IMPORTANT:
-
-
 
 Do NOT hardcode API keys into the frontend.
 
-
-
 Use secure server-side functions/environment variables.
-
-
 
 Create a provider/integration system.
 
-
-
 Possible integrations:
-
-
 
 Research:
 
@@ -2364,8 +1720,6 @@ Firecrawl
 
 Perplexity
 
-
-
 LLM:
 
 OpenAI
@@ -2375,8 +1729,6 @@ Anthropic
 Google Gemini
 
 Other compatible providers
-
-
 
 Voice:
 
@@ -2388,8 +1740,6 @@ OpenAI
 
 Other providers
 
-
-
 Images:
 
 Nano Banana / Gemini
@@ -2399,8 +1749,6 @@ OpenAI
 Flux
 
 Ideogram
-
-
 
 Video:
 
@@ -2414,8 +1762,6 @@ Luma
 
 Pika
 
-
-
 Stock:
 
 Pexels
@@ -2423,8 +1769,6 @@ Pexels
 Pixabay
 
 Unsplash
-
-
 
 Rendering:
 
@@ -2434,33 +1778,21 @@ Remotion
 
 Cloud rendering
 
-
-
 Storage:
 
 Supabase Storage
-
-
 
 Payments:
 
 Stripe
 
-
-
 Analytics:
 
 PostHog or similar
 
-
-
 The UI should have an Integrations page.
 
-
-
 Each provider should show:
-
-
 
 Connected
 
@@ -2470,15 +1802,11 @@ Configure
 
 Test Connection
 
-
-
 ==================================================
 
 31. MCP SUPPORT
 
 ==================================================
-
-
 
 Design the architecture so external MCP tools can be connected
 

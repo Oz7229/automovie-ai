@@ -1,0 +1,6 @@
+{
+  "name": "CreateFlow AI",
+  "description": "AI production studio for faceless YouTube creators.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,7 +1,15 @@
 import "./lib/error-capture";
-
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { synthesizeVoice, generateThumbnail, getProvidersStatus } from "./lib/api-service";
+import {
+  runGeminiChat,
+  runMapsResearch,
+  generateOrEditImage,
+  startVeoVideoGeneration,
+  pollVeoOperation,
+  runGeminiVoiceTurn,
+} from "./lib/gemini";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -46,6 +54,93 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/api/status" && request.method === "GET") {
+      const status = getProvidersStatus();
+      return Response.json(status);
+    }
+
+    if (url.pathname === "/api/voice" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as Parameters<typeof synthesizeVoice>[0];
+        const result = await synthesizeVoice(body);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/thumbnails" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as Parameters<typeof generateThumbnail>[0];
+        const result = await generateThumbnail(body);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/chat" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as Parameters<typeof runGeminiChat>[0];
+        const result = await runGeminiChat(body);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/maps-research" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { prompt: string };
+        const result = await runMapsResearch(body.prompt);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/image" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as Parameters<typeof generateOrEditImage>[0];
+        const result = await generateOrEditImage(body);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/video" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as Parameters<typeof startVeoVideoGeneration>[0];
+        const result = await startVeoVideoGeneration(body);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/video-status" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { operationName: string };
+        const result = await pollVeoOperation(body.operationName);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
+    if (url.pathname === "/api/gemini/voice-turn" && request.method === "POST") {
+      try {
+        const body = (await request.json()) as { message: string };
+        const result = await runGeminiVoiceTurn(body.message);
+        return Response.json(result);
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 400 });
+      }
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
