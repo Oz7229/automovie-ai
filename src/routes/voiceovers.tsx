@@ -51,9 +51,13 @@ const GEMINI_VOICES = [
 ];
 
 function Voice() {
-  const [provider, setProvider] = useState<"gemini" | "chatterbox" | "hf" | "ai33" | "elevenlabs">(
-    "gemini",
-  );
+  const [provider, setProvider] = useState<
+    "gemini" | "chatterbox" | "hf" | "ai33" | "elevenlabs" | "voicestudio"
+  >("gemini");
+  const [voiceStudioVoices, setVoiceStudioVoices] = useState<
+    { id: string; name: string; type: string }[]
+  >([]);
+  const [voiceStudioLoading, setVoiceStudioLoading] = useState(false);
   const [voiceName, setVoiceName] = useState("Kore");
   const [scenes, setScenes] = useState(initialScenes);
   const [audioUrls, setAudioUrls] = useState<Record<string, string>>({});
@@ -67,6 +71,7 @@ function Voice() {
     geminiConfigured: boolean;
     hfConfigured: boolean;
     ai33Configured: boolean;
+    voicestudioConfigured: boolean;
   } | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -80,11 +85,38 @@ function Voice() {
             geminiConfigured: Boolean(data.gemini?.configured),
             hfConfigured: Boolean(data.huggingface?.configured),
             ai33Configured: Boolean(data.ai33?.configured),
+            voicestudioConfigured: Boolean(data.voicestudio?.configured),
           });
         }
       })
       .catch(() => {});
   }, []);
+
+  const loadVoiceStudioVoices = async () => {
+    setVoiceStudioLoading(true);
+    try {
+      const res = await fetch("/api/voicestudio/voices");
+      const data = (await res.json()) as {
+        configured: boolean;
+        voices: { id: string; name: string; type: string }[];
+        error?: string;
+      };
+      setVoiceStudioVoices(data.voices ?? []);
+      if (!data.configured) {
+        setStatusNote(
+          "VoiceStudio is not connected. Set VOICESTUDIO_URL and VOICESTUDIO_API_KEY on the server.",
+        );
+      } else if (data.error) {
+        setStatusNote(`Could not reach VoiceStudio: ${data.error}`);
+      } else {
+        setStatusNote(`VoiceStudio connected — ${data.voices.length} voices available.`);
+      }
+    } catch (err) {
+      setStatusNote(`Could not reach VoiceStudio: ${String(err)}`);
+    } finally {
+      setVoiceStudioLoading(false);
+    }
+  };
 
   const playAudio = (id: string, url?: string) => {
     if (playingId === id) {
@@ -126,6 +158,10 @@ function Voice() {
       });
 
       const data = await res.json();
+      if (data.success === false) {
+        setStatusNote(data.note ?? data.error ?? "Voice generation failed.");
+        return;
+      }
       if (data.audioUrl) {
         if (sceneId) {
           setAudioUrls((prev) => ({ ...prev, [sceneId]: data.audioUrl }));
@@ -174,7 +210,11 @@ function Voice() {
                 ? status?.ai33Configured
                   ? "AI33 Pro Gateway (active)"
                   : "AI33 Pro Gateway"
-                : "ElevenLabs"
+                : provider === "voicestudio"
+                  ? status?.voicestudioConfigured
+                    ? "VoiceStudio (self-hosted, connected)"
+                    : "VoiceStudio (self-hosted, not configured)"
+                  : "ElevenLabs"
         }`}
         actions={
           <Button variant="primary" disabled={generating} onClick={handleGenerateAll}>
@@ -215,7 +255,10 @@ function Voice() {
                   const p = e.target.value as typeof provider;
                   setProvider(p);
                   if (p === "gemini") setVoiceName("Kore");
-                  else setVoiceName("Warm Narrator");
+                  else if (p === "voicestudio") {
+                    setVoiceName("default");
+                    void loadVoiceStudioVoices();
+                  } else setVoiceName("Warm Narrator");
                 }}
               >
                 <option value="gemini">Gemini Flash TTS (gemini-3.8-flash-tts) ⭐</option>
@@ -223,6 +266,7 @@ function Voice() {
                 <option value="hf">Hugging Face (Kokoro-82M)</option>
                 <option value="ai33">AI33 Pro Gateway</option>
                 <option value="elevenlabs">ElevenLabs Direct</option>
+                <option value="voicestudio">VoiceStudio (self-hosted voice cloning)</option>
               </select>
             </Field>
 
@@ -239,6 +283,32 @@ function Voice() {
                     </option>
                   ))}
                 </select>
+              ) : provider === "voicestudio" ? (
+                <div className="flex gap-2">
+                  <select
+                    className={inputCls}
+                    value={voiceName}
+                    onChange={(e) => setVoiceName(e.target.value)}
+                  >
+                    <option value="default">Default engine voice</option>
+                    {voiceStudioVoices
+                      .filter((v) => v.type === "profile")
+                      .map((v) => (
+                        <option key={v.id} value={v.id}>
+                          {v.name} (cloned)
+                        </option>
+                      ))}
+                  </select>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label="Refresh VoiceStudio voices"
+                    disabled={voiceStudioLoading}
+                    onClick={() => void loadVoiceStudioVoices()}
+                  >
+                    <RefreshCw className={voiceStudioLoading ? "animate-spin" : ""} />
+                  </Button>
+                </div>
               ) : (
                 <select
                   className={inputCls}

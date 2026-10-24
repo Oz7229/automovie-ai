@@ -41,7 +41,7 @@ loadEnvFallback();
 
 export interface VoiceoverRequest {
   text: string;
-  provider?: "gemini" | "hf" | "ai33" | "elevenlabs";
+  provider?: "gemini" | "hf" | "ai33" | "elevenlabs" | "voicestudio";
   voice?: string;
   speed?: number;
   stability?: number;
@@ -78,6 +78,149 @@ export interface ProvidersStatusResponse {
   openai: { configured: boolean };
   pexels: { configured: boolean };
   tavily: { configured: boolean };
+  voicestudio: { configured: boolean };
+}
+
+export interface VoiceStudioVoice {
+  id: string;
+  name: string;
+  type: "openai_alias" | "profile" | string;
+  language?: string;
+}
+
+// Self-hosted VoiceStudio backend (OpenAI-compatible /v1 API).
+// VOICESTUDIO_URL is the server's base URL, VOICESTUDIO_API_KEY its OMNIVOICE_API_KEY.
+function getVoiceStudioConfig(): { baseUrl: string; apiKey: string } | null {
+  const baseUrl = process.env["VOICESTUDIO_URL"]?.trim().replace(/\/+$/, "");
+  if (!baseUrl) return null;
+  return { baseUrl, apiKey: process.env["VOICESTUDIO_API_KEY"]?.trim() ?? "" };
+}
+
+function voiceStudioHeaders(apiKey: string): Record<string, string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+  return headers;
+}
+
+async function readVoiceStudioError(res: Response): Promise<string> {
+  try {
+    const data = (await res.json()) as {
+      error?: { message?: string };
+      detail?: unknown;
+    };
+    const message = data.error?.message ?? data.detail;
+    if (message) return typeof message === "string" ? message : JSON.stringify(message);
+  } catch {
+    // body was not JSON
+  }
+  return `HTTP ${res.status}`;
+}
+
+export async function listVoiceStudioVoices(): Promise<{
+  configured: boolean;
+  voices: VoiceStudioVoice[];
+  error?: string;
+}> {
+  loadEnvFallback();
+  const config = getVoiceStudioConfig();
+  if (!config) return { configured: false, voices: [] };
+
+  try {
+    const res = await fetch(`${config.baseUrl}/v1/audio/voices`, {
+      headers: voiceStudioHeaders(config.apiKey),
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!res.ok) {
+      return { configured: true, voices: [], error: await readVoiceStudioError(res) };
+    }
+    const data = (await res.json()) as {
+      voices?: {
+        id?: string;
+        voice_id?: string;
+        name?: string;
+        type?: string;
+        language?: string;
+      }[];
+    };
+    const voices = (data.voices ?? []).map((v) => {
+      const id = v.id ?? v.voice_id ?? "";
+      return {
+        id,
+        name: v.name ?? id,
+        type: v.type ?? "profile",
+        ...(v.language ? { language: v.language } : {}),
+      };
+    });
+    return { configured: true, voices: voices.filter((v) => v.id) };
+  } catch (err) {
+    return { configured: true, voices: [], error: String(err) };
+  }
+}
+
+// Duration of a PCM WAV from its header (byte rate at offset 28).
+function wavDurationSec(buffer: Buffer): number | null {
+  if (buffer.length < 44 || buffer.toString("ascii", 0, 4) !== "RIFF") return null;
+  const byteRate = buffer.readUInt32LE(28);
+  if (!byteRate) return null;
+  return Math.round(((buffer.length - 44) / byteRate) * 10) / 10;
+}
+
+async function synthesizeVoiceStudio(
+  req: VoiceoverRequest,
+  estimatedDuration: number,
+): Promise<VoiceoverResponse> {
+  const config = getVoiceStudioConfig();
+  if (!config) {
+    return {
+      success: false,
+      audioUrl: createSilentWavDataUrl(estimatedDuration),
+      durationSec: estimatedDuration,
+      provider: "VoiceStudio (not configured)",
+      note: "Set VOICESTUDIO_URL and VOICESTUDIO_API_KEY in the server environment to use your VoiceStudio backend.",
+    };
+  }
+
+  try {
+    const body: Record<string, unknown> = {
+      model: "tts-1",
+      input: req.text,
+      voice: req.voice || "default",
+      response_format: "wav",
+    };
+    if (typeof req.speed === "number" && req.speed >= 0.25 && req.speed <= 4) {
+      body["speed"] = req.speed;
+    }
+
+    // The first request after a cold start loads the model, which can take minutes.
+    const res = await fetch(`${config.baseUrl}/v1/audio/speech`, {
+      method: "POST",
+      headers: voiceStudioHeaders(config.apiKey),
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(300_000),
+    });
+
+    if (!res.ok) {
+      throw new Error(await readVoiceStudioError(res));
+    }
+
+    const buffer = Buffer.from(await res.arrayBuffer());
+    return {
+      success: true,
+      audioUrl: `data:audio/wav;base64,${buffer.toString("base64")}`,
+      durationSec: wavDurationSec(buffer) ?? estimatedDuration,
+      provider: `VoiceStudio (${req.voice || "default"})`,
+    };
+  } catch (err) {
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.warn("VoiceStudio TTS error:", errMsg);
+    return {
+      success: false,
+      audioUrl: createSilentWavDataUrl(estimatedDuration),
+      durationSec: estimatedDuration,
+      provider: "VoiceStudio (error)",
+      note: `VoiceStudio request failed: ${errMsg}`,
+    };
+  }
 }
 
 export function getProvidersStatus(): ProvidersStatusResponse {
@@ -118,6 +261,9 @@ export function getProvidersStatus(): ProvidersStatusResponse {
     tavily: {
       configured: Boolean(tavilyKey && tavilyKey.length > 5),
     },
+    voicestudio: {
+      configured: Boolean(getVoiceStudioConfig()),
+    },
   };
 }
 
@@ -132,6 +278,11 @@ export async function synthesizeVoice(req: VoiceoverRequest): Promise<VoiceoverR
   const ai33Token = process.env.AI33_API_KEY;
   const ai33BaseUrl = process.env.AI33_BASE_URL || "https://api.ai33.pro/v1";
   const elevenLabsKey = process.env.ELEVENLABS_API_KEY;
+
+  // 0. Self-hosted VoiceStudio — only when explicitly selected, never as a silent fallback.
+  if (req.provider === "voicestudio") {
+    return synthesizeVoiceStudio(req, estimatedDuration);
+  }
 
   // 1. Try Gemini Flash TTS (flagship gemini-3.8-flash-tts)
   if (req.provider === "gemini" || (geminiKey && !req.provider)) {

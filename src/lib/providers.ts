@@ -126,6 +126,13 @@ export const PROVIDERS: ProviderMeta[] = [
     connected: true,
   },
   {
+    id: "voicestudio",
+    name: "VoiceStudio (self-hosted)",
+    capability: "voice",
+    description: "Open-source voice cloning TTS on your own server",
+    connected: false,
+  },
+  {
     id: "ai33",
     name: "AI33 Pro Gateway",
     capability: "voice",

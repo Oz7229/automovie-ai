@@ -1,7 +1,12 @@
 import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { synthesizeVoice, generateThumbnail, getProvidersStatus } from "./lib/api-service";
+import {
+  synthesizeVoice,
+  generateThumbnail,
+  getProvidersStatus,
+  listVoiceStudioVoices,
+} from "./lib/api-service";
 import {
   runGeminiChat,
   runMapsResearch,
@@ -69,6 +74,11 @@ export default {
       } catch (err) {
         return Response.json({ success: false, error: String(err) }, { status: 400 });
       }
+    }
+
+    if (url.pathname === "/api/voicestudio/voices" && request.method === "GET") {
+      const result = await listVoiceStudioVoices();
+      return Response.json(result);
     }
 
     if (url.pathname === "/api/thumbnails" && request.method === "POST") {
