@@ -123,7 +123,7 @@ const NUM_WORD_SRC =
   "neun|zehn|zwolf|zwanzig|dreissig|hundert|tausend|millionen|milliarden?|dutzend)";
 const NUM_WORD_FULL = new RegExp(`^${NUM_WORD_SRC}$`, "i");
 const NUM_WORD_RE = new RegExp(`\\b${NUM_WORD_SRC}\\b`, "i");
-const DIGIT_RE = /\d(?:[\d,.  ]*\d)?/;
+const DIGIT_RE = /\d(?:[\d,.\u00a0\u202f]*\d)?/;
 const EN_PRESENT =
   /\b(is|are|has|have|does|do|isn't|aren't|hasn't|haven't|doesn't|don't|can|can't|will|won't)\b/gi;
 const EN_PAST = /\b(was|were|had|did|wasn't|weren't|hadn't|didn't|could|couldn't|would)\b/gi;
@@ -208,7 +208,7 @@ const EN_WORDS = new Set([
 
 /** '1,200' -> 1200, '1.4' -> 1.4, '1.200.000' -> 1200000, '1,4' -> 1.4 (decimal comma). */
 function digitValue(d: string): number | null {
-  d = d.replace(/[  ]/g, "");
+  d = d.replace(/[\u00a0\u202f]/g, "");
   if (/^\d{1,3}([,.]\d{3})+$/.test(d)) return Number(d.replace(/[,.]/g, ""));
   return /^\d+([.,]\d+)?$/.test(d) ? Number(d.replace(",", ".")) : null;
 }
@@ -249,11 +249,11 @@ function enRunValue(run: string[]): number {
 /** Every number phrase as [key, before]: key = its value (English words, digits) or the folded phrase; before =
  * the two folded words in front of it (where a hedge such as 'around' sits). */
 function numberRuns(text: string): [NumKey, string][] {
-  const t = spoken(text).replace(/(?<=\d)[  ](?=\d{3})/g, "");
+  const t = spoken(text).replace(/(?<=\d)[\u00a0\u202f](?=\d{3})/g, "");
   const toks =
     fold(t)
       .replace(/-/g, " ")
-      .match(/\d(?:[\d,.  ]*\d)?|\p{L}+|[^\p{L}\p{N}_\s]/gu) || [];
+      .match(/\d(?:[\d,.\u00a0\u202f]*\d)?|\p{L}+|[^\p{L}\p{N}_\s]/gu) || [];
   const out: [NumKey, string][] = [];
   const run: string[] = [];
   let start = 0;

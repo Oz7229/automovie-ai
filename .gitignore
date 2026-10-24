@@ -19,6 +19,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Frontier script pipeline work files (/frontier-script); finished scripts go to content/scripts/
+.frontier/
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

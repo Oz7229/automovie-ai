@@ -15,39 +15,6 @@ import {
   pollVeoOperation,
   runGeminiVoiceTurn,
 } from "./lib/gemini";
-import { activeLlm } from "./lib/llm";
-import { runDoctor, runFactCheck, writeOutline, writeScript } from "./lib/frontier/pipeline";
-
-// The Frontier script pipeline: one route per step, each a JSON body in and a JSON result out.
-type FrontierBody = {
-  title: string;
-  minutes: number;
-  outline: string;
-  script: string;
-  sources?: string;
-};
-const FRONTIER_ROUTES: Record<
-  string,
-  { needs: (keyof FrontierBody)[]; run: (body: FrontierBody) => Promise<object> }
-> = {
-  "/api/frontier/outline": { needs: ["title", "minutes"], run: writeOutline },
-  "/api/frontier/script": { needs: ["title", "minutes", "outline"], run: writeScript },
-  "/api/frontier/doctor": { needs: ["title", "minutes", "script"], run: runDoctor },
-  "/api/frontier/factcheck": { needs: ["title", "script"], run: runFactCheck },
-};
-
-function readFrontierBody(raw: unknown, needs: (keyof FrontierBody)[]): FrontierBody {
-  const b = (raw ?? {}) as Partial<FrontierBody>;
-  for (const key of needs) {
-    const v = b[key];
-    const ok =
-      key === "minutes"
-        ? typeof v === "number" && v > 0 && v <= 60
-        : typeof v === "string" && v.trim();
-    if (!ok) throw new Error(`Missing or invalid "${key}".`);
-  }
-  return b as FrontierBody;
-}
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -96,18 +63,7 @@ export default {
 
     if (url.pathname === "/api/status" && request.method === "GET") {
       const status = getProvidersStatus();
-      return Response.json({ ...status, writer: activeLlm() });
-    }
-
-    const frontierStep = FRONTIER_ROUTES[url.pathname];
-    if (frontierStep && request.method === "POST") {
-      try {
-        const body = readFrontierBody(await request.json(), frontierStep.needs);
-        return Response.json({ success: true, ...(await frontierStep.run(body)) });
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        return Response.json({ success: false, error: message }, { status: 400 });
-      }
+      return Response.json(status);
     }
 
     if (url.pathname === "/api/voice" && request.method === "POST") {

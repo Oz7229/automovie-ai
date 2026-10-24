@@ -167,28 +167,6 @@ export async function runGeminiChat(opts: ChatOptions) {
 }
 
 /**
- * One-shot text generation with automatic failover; `search` grounds the answer in Google Search.
- * Throws when no key works, so callers can report the real error.
- */
-export async function generateGeminiText(opts: {
-  prompt: string;
-  systemInstruction?: string;
-  search?: boolean;
-}): Promise<string> {
-  return executeWithFailover(async (ai) => {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
-      contents: opts.prompt,
-      config: {
-        ...(opts.systemInstruction ? { systemInstruction: opts.systemInstruction } : {}),
-        ...(opts.search ? { tools: [{ googleSearch: {} }] } : {}),
-      },
-    });
-    return response.text || "";
-  });
-}
-
-/**
  * Research with Google Maps Grounding using gemini-3.5-flash with automatic failover.
  */
 export async function runMapsResearch(prompt: string) {

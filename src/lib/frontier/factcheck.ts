@@ -1,12 +1,9 @@
 // The fact-check, ported from Frontier 6.1 factcheck.py: the narration is cut into parts of about 550 words, every
-// part is checked at the same time by its own web-searching model call, and each call returns only real problems
-// with the exact words to replace. Fixes are applied by exact replacement; anything that cannot be found verbatim
-// is reported, never guessed.
-
-import { FACTCHECK_PROMPT } from "./prompts";
+// part is checked by its own web-searching model call (Claude Code, factCheckPrompt in assemble.ts), and each call
+// returns only real problems with the exact words to replace. Fixes are applied by exact replacement; anything that
+// cannot be found verbatim is reported, never guessed.
 
 const PART_WORDS = 550;
-const WORKERS = 6;
 // heading, clip and mood lines are not narration: they neither count, nor get checked, nor are ever rewritten
 const MARK = /^\s*(#{1,3}\s*\S|\[\[\s*(clip|mood)\s*:)/i;
 
@@ -94,38 +91,11 @@ export function applyFix(part: string, q: string, fx: string): string | null {
   return part.replace(q, () => fx);
 }
 
-function partPrompt(title: string, language: string, n: number, of: number, part: string): string {
-  return FACTCHECK_PROMPT.replace("[INSERT TITLE HERE]", title)
-    .replaceAll("[INSERT LANGUAGE HERE]", language)
-    .replaceAll("[INSERT N HERE]", String(n))
-    .replace("[INSERT OF HERE]", String(of))
-    .replace("[INSERT PART HERE]", part);
-}
-
-/** Check the whole script. `ask` is one web-searching model call. */
-export async function factCheck(
-  title: string,
-  script: string,
-  ask: (prompt: string) => Promise<string>,
-  language = "English",
-): Promise<FactCheckResult> {
-  const parts = splitParts(script);
-  const answers: ReturnType<typeof parseIssues>[] = new Array(parts.length).fill(null);
-  let next = 0;
-  const worker = async () => {
-    while (next < parts.length) {
-      const k = next++;
-      const prompt = partPrompt(title, language, k + 1, parts.length, parts[k]!);
-      try {
-        answers[k] = parseIssues(await ask(prompt), prompt);
-      } catch (err) {
-        console.warn(`fact-check part ${k + 1} failed:`, err instanceof Error ? err.message : err);
-        answers[k] = null;
-      }
-    }
-  };
-  await Promise.all(Array.from({ length: Math.min(WORKERS, parts.length) }, worker));
-
+/** Apply every part's answer (null = that part was not checked) to the parts, by exact replacement. */
+export function applyAnswers(
+  parts: string[],
+  answers: ReturnType<typeof parseIssues>[],
+): FactCheckResult {
   const issues: FactIssue[] = [];
   const fixed = parts.map((part, k) => {
     let text = part;
