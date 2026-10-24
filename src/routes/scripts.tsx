@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Sparkles, Wand2 } from "lucide-react";
 import { Badge, Button, buttonVariants, Field, inputCls } from "@/components/ui-kit";
+import { FrontierWriter } from "@/components/FrontierWriter";
 import { scenes as initial, fmt } from "@/lib/sample-data";
 import { seo } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,7 @@ function Scripts() {
 
   return (
     <div>
+      <FrontierWriter />
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Script</h1>

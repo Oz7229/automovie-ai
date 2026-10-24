@@ -108,7 +108,7 @@ export const PROVIDERS: ProviderMeta[] = [
     id: "anthropic",
     name: "Anthropic",
     capability: "llm",
-    description: "Claude models",
+    description: "Claude: Frontier script writer, script doctor and fact-check",
     connected: false,
   },
   {
