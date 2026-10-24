@@ -10,9 +10,10 @@ Browser ──▶ /api/voice (site server) ──▶ VOICESTUDIO_URL/v1/audio/sp
 
 The API key stays on the site's server. Browsers never see it.
 
-## Option A: free Hugging Face Space (CPU)
+## Option A: Hugging Face Space
 
-This option is free but slow, often a minute or more per scene. The Space
+Docker Spaces require a Hugging Face **PRO** subscription. The CPU hardware
+itself has no extra charge, but it is slow, often a minute or more per scene. The Space
 sleeps after 48 hours without traffic, and its disk resets on restart, so the
 voice model and any cloned voices must be set up again after a restart.
 Upgrading the Space to GPU hardware in its Settings makes it fast.
@@ -20,7 +21,7 @@ Upgrading the Space to GPU hardware in its Settings makes it fast.
 1. **Create the Space:** go to <https://huggingface.co/new-space> and set:
    - **Name:** `voicestudio`
    - **SDK:** Docker, Blank template
-   - **Hardware:** CPU basic (free)
+   - **Hardware:** CPU basic
    - **Visibility:** **Public**. A private Space would block the site's
      requests. VoiceStudio's API key protects it instead.
 2. **Add the files:** in the Space's **Files** tab, replace `README.md` and add
