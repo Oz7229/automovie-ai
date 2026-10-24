@@ -10,6 +10,32 @@ Browser ──▶ /api/voice (site server) ──▶ VOICESTUDIO_URL/v1/audio/sp
 
 The API key stays on the site's server. Browsers never see it.
 
+## Option A: free Hugging Face Space (CPU)
+
+This option is free but slow, often a minute or more per scene. The Space
+sleeps after 48 hours without traffic, and its disk resets on restart, so the
+voice model and any cloned voices must be set up again after a restart.
+Upgrading the Space to GPU hardware in its Settings makes it fast.
+
+1. **Create the Space:** go to <https://huggingface.co/new-space> and set:
+   - **Name:** `voicestudio`
+   - **SDK:** Docker, Blank template
+   - **Hardware:** CPU basic (free)
+   - **Visibility:** **Public**. A private Space would block the site's
+     requests. VoiceStudio's API key protects it instead.
+2. **Add the files:** in the Space's **Files** tab, replace `README.md` and add
+   `Dockerfile` with the two files from
+   [`deploy/voicestudio-space/`](../deploy/voicestudio-space/).
+3. **Add the key:** under **Settings → Variables and secrets → New secret**,
+   set name `OMNIVOICE_API_KEY` and value: a long random string.
+4. **Wait for the build:** it shows **Running** after about 10–20 minutes.
+   The Space's URL is `https://<username>-voicestudio.hf.space`.
+5. **Install a model:** open that URL directly (not inside huggingface.co) and
+   sign in with the key. Then continue with step 4 below.
+6. **Connect the site:** set `VOICESTUDIO_URL` to that URL, as in step 5 below.
+
+## Option B: your own GPU server
+
 ## 1. Rent a server
 
 Use a Linux **x86-64** machine with an **NVIDIA GPU**. Examples are RunPod, Lambda,
